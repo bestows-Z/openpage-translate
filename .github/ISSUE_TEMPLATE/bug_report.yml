@@ -1,0 +1,53 @@
+name: 问题报告 / Bug report
+description: 报告可复现的网页翻译问题，不要提供密钥或个人信息。
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先阅读排障指南。安全问题请按 SECURITY.md 处理，不在公开 Issue 中披露漏洞细节、密钥或个人信息。
+  - type: input
+    id: versions
+    attributes:
+      label: 浏览器、系统、Tampermonkey 与脚本版本
+      placeholder: Chrome / Edge 版本；操作系统；Tampermonkey 版本；脚本版本
+    validations:
+      required: true
+  - type: dropdown
+    id: provider
+    attributes:
+      label: 使用的引擎
+      options:
+        - 浏览器本地 / Browser
+        - Ollama 本地 / Local Ollama
+        - 有道 / Youdao
+        - DeepSeek
+        - OpenAI 兼容 / Compatible service
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: 可公开的示例页面
+      description: 若原页面含私人内容，请提供公开或最小示例，不提供敏感 URL。
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 最小复现步骤
+      description: 包括源语言、目标语言和操作步骤，不包含密钥。
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 预期与实际结果
+      description: 可以附脱敏截图或错误提示，不要附带授权请求头。
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私检查
+      options:
+        - label: 我已确认内容中没有密钥、个人信息或敏感请求。
+          required: true

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 安全政策 / Security policy
+    url: https://github.com/bestows-Z/openpage-translate/blob/main/SECURITY.md
+    about: 请勿在公开问题中披露密钥或可利用的安全漏洞。

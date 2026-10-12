@@ -1,0 +1,64 @@
+name: Build draft release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Verify version and the single main branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --no-tags
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          test "$(git ls-remote --heads origin | awk '{print $2}')" = 'refs/heads/main'
+          git branch --force main origin/main
+          node --input-type=module -e "import fs from 'node:fs'; const version = JSON.parse(fs.readFileSync('package.json', 'utf8')).version; if (process.env.GITHUB_REF_NAME !== 'v' + version) throw new Error('Tag does not match package version');"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v6
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Check and build
+        run: pnpm check
+      - name: Check public files
+        run: pnpm check:publish
+      - name: Install test browser
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Test page integration with GM mocks
+        run: pnpm test:e2e
+      - name: Create draft with installable attachments
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          release_flags=(--draft)
+          if [[ "$GITHUB_REF_NAME" == v0.* ]]; then
+            release_flags+=(--prerelease)
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            dist/openpage-translate.user.js \
+            dist/openpage-translate.meta.js \
+            --verify-tag \
+            --title "OpenPage Translate $GITHUB_REF_NAME" \
+            --generate-notes \
+            "${release_flags[@]}"

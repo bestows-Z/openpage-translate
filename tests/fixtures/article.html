@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>OpenPage demo</title>
+    <style>
+      body {
+        margin: 0;
+        background: #f4f6fa;
+        color: #243348;
+        font: 17px/1.8 system-ui;
+      }
+      main {
+        max-width: 760px;
+        margin: 60px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 36px;
+        line-height: 1.2;
+      }
+      a {
+        color: #2458cf;
+      }
+      .eyebrow {
+        color: #526377;
+        letter-spacing: 2px;
+        font-size: 12px;
+      }
+      code {
+        background: #eef2f7;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">OPEN WEB / SHARED KNOWLEDGE</div>
+      <h1>Read the world, one paragraph at a time.</h1>
+      <p id="article">
+        Learning a new language starts with curiosity. Keep the original text
+        and explore its meaning alongside a translation.
+      </p>
+      <p id="links">
+        Open tools help people learn together. Visit
+        <a id="source-link" href="#source">the original source</a> and continue
+        exploring.
+      </p>
+      <ul>
+        <li>Preserve the source and its links.</li>
+        <li>Translate only the text you choose.</li>
+      </ul>
+      <table>
+        <tbody>
+          <tr>
+            <td>Local translation</td>
+            <td>No cloud API fee</td>
+          </tr>
+        </tbody>
+      </table>
+      <pre><code>const untouched = true;</code></pre>
+      <input aria-label="Untouched input" value="Do not translate me" />
+      <p id="hidden" class="hidden">This paragraph becomes visible later.</p>
+      <section id="dynamic"></section>
+    </main>
+  </body>
+</html>
